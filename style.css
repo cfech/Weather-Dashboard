@@ -1,0 +1,41 @@
+.myNav{
+    background-color: #303030;
+}
+.navSpan{
+    font-size: 35px;
+}
+
+.weatherDiv,
+.listDiv{
+    border: solid;
+    border-color: black;
+    border-width: 2px;
+}
+/* .testRow{
+    border: solid;
+    border-color: blue;
+    border-width: 2px;
+} */
+
+
+.fiveDay{
+    border: solid;
+    border-color: blue;
+    border-width: 2px;
+    margin: 10px 5px;
+    padding: 4px;
+    background-color: #0080ff;
+    color: white;
+}
+main{
+    background-color: whitesmoke;
+}
+#dayForcast{
+    font-size: 30px;
+    border-color: lightgrey;
+    border: solid;
+    border-width: 1px;
+    background-color: white;
+    padding: 10px;
+    margin: 15px;
+}
