@@ -31,11 +31,19 @@ main{
     background-color: whitesmoke;
 }
 #dayForcast{
-    font-size: 30px;
+  
     border-color: lightgrey;
     border: solid;
     border-width: 1px;
     background-color: white;
     padding: 10px;
     margin: 15px;
+}
+.bigger{
+    font-size: 30px;
+}
+.head{
+   
+    font-weight: bold;
+    font-size: 20px;
 }
