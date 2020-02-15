@@ -2,6 +2,8 @@
 var lat
 var lon
 
+var tomorrow = moment().add(1, 'days').format("L"); 
+console.log(tomorrow)
 
 var date = (moment().format("L"))
 console.log(date)
@@ -11,6 +13,7 @@ console.log(date)
 $("#add-city").on("click", function () {
     event.preventDefault()
     $("#dayForcast").empty()
+
     console.log("works")
     var location = $("#city-input").val().trim();
     console.log(location)
@@ -30,7 +33,7 @@ $("#add-city").on("click", function () {
         var City = (response.name)
         var weather = (response.weather[0].main)
         console.log(City)
-        cityDiv.text(City + " " + date +"  " +weather)
+        cityDiv.text(City + " " + date + "  " + weather)
         //temperature
         var k = (response.main.temp)
         var f = (k - 273.5) * 1.80 + 32
@@ -95,18 +98,22 @@ $("#add-city").on("click", function () {
         console.log(dayFive)
 
         // next day 
-
+        $("#nextDay").empty()
+        $("#dayTwo").empty()
+        $("#dayThree").empty()
+        $("#dayFour").empty()
+        $("#dayFive").empty()
 
 
 
         var nextDayDiv = $("<div>")
         //date 
-        var nextDayDate = (response.list[4].dt_txt)
+        var nextDayDate = moment().add(1, 'days').format("L")
         console.log(nextDayDate)
-        
+
         var nextDayDateDiv = $("<div>").addClass("head")
         nextDayDateDiv.text(nextDayDate)
-      
+
 
 
         //get weather 
@@ -149,7 +156,7 @@ $("#add-city").on("click", function () {
 
         var dayTwoDiv = $("<div>")
         //date 
-        var dayTwoDate = (response.list[12].dt_txt)
+        var dayTwoDate = moment().add(2, 'days').format("L")
         console.log(dayTwoDate)
         var dayTwoDateDiv = $("<div>").addClass("head")
         dayTwoDateDiv.text(dayTwoDate)
@@ -191,7 +198,7 @@ $("#add-city").on("click", function () {
 
         var dayThreeDiv = $("<div>")
         //date 
-        var dayThreeDate = (response.list[20].dt_txt)
+        var dayThreeDate = moment().add(3, 'days').format("L")
         console.log(dayThreeDate)
         var dayThreeDateDiv = $("<div>").addClass("head")
         dayThreeDateDiv.text(dayThreeDate)
@@ -236,7 +243,7 @@ $("#add-city").on("click", function () {
 
         var dayFourDiv = $("<div>")
         //date 
-        var dayFourDate = (response.list[28].dt_txt)
+        var dayFourDate = moment().add(4, 'days').format("L")
         console.log(dayFourDate)
         var dayFourDateDiv = $("<div>").addClass("head")
         dayFourDateDiv.text(dayFourDate)
@@ -273,13 +280,13 @@ $("#add-city").on("click", function () {
 
         dayFourDiv.append(dayFourDateDiv, dayFourWeatherDiv, dayFourTempCDiv, dayFourHumidityDiv)
         $("#dayFour").append(dayFourDiv)
-        
+
 
         // Day 5 
 
         var dayFiveDiv = $("<div>")
         //date 
-        var dayFiveDate = (response.list[36].dt_txt)
+        var dayFiveDate = moment().add(5, 'days').format("L")
         console.log(dayFiveDate)
         var dayFiveDateDiv = $("<div>").addClass("head")
         dayFiveDateDiv.text(dayFiveDate)
@@ -316,7 +323,7 @@ $("#add-city").on("click", function () {
 
         dayFiveDiv.append(dayFiveDateDiv, dayFiveWeatherDiv, dayFiveTempCDiv, dayFiveHumidityDiv)
         $("#dayFive").append(dayFiveDiv)
-        
+
 
 
 
