@@ -1,49 +1,104 @@
-.myNav{
-    background-color: #303030;
+.myNav {
+    background-color: #343A41;
 }
-.navSpan{
+
+.navSpan {
     font-size: 35px;
 }
 
-.weatherDiv,
-.listDiv{
-    border: solid;
-    border-color: black;
-    border-width: 2px;
+.weatherDiv {
+    background-color: #FFFFFF
 }
-/* .testRow{
-    border: solid;
-    border-color: blue;
-    border-width: 2px;
-} */
 
-
-.fiveDay{
+.fiveDay {
     border: solid;
-    border-color: blue;
+    border-color: #0060ff;
     border-width: 2px;
     margin: 10px 5px;
     padding: 4px;
-    background-color: #0080ff;
+    background-color: #007AFA;
     color: white;
+    border-radius: 5px;
 }
-main{
-    background-color: whitesmoke;
+
+main {
+    background-color: #F8F9FA;
 }
-#dayForcast{
-  
-    border-color: lightgrey;
+
+#dayForcast {
+    border-color: #F4F4F4;
     border: solid;
     border-width: 1px;
     background-color: white;
     padding: 10px;
     margin: 15px;
 }
-.bigger{
-    font-size: 30px;
+
+.bigger {
+    font-size: 25px;
+    font-weight: bold;
 }
-.head{
-   
+
+.head {
     font-weight: bold;
     font-size: 20px;
+    padding: 2px 2px 5px 5px;
+    margin-bottom: 10px;
+}
+
+.fa-sun {
+    color: #FFAB4D !important;
+}
+
+.fa-cloud-rain {
+    color: #47abf7 !important;
+}
+
+.fa-cloud {
+    color: rgb(223, 213, 213);
+}
+
+.fas, .far {
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+
+.forcast {
+    margin-left: 10px;
+    ;
+}
+
+.UvIndex, .windSpeed, .humidity, .tempClass {
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.searchButton {
+    background-color: #007CFF;
+    border-radius: 10px;
+}
+
+.searchButton :hover :active {
+    border: solid;
+    border-width: 3px;
+    border-color: black;
+}
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.list {
+    background-color: #FFFFFF;
+    margin: 10px 5px;
+}
+
+li {
+    border-bottom: solid;
+    border-color: rgb(240, 238, 238);
+    border-width: .5px;
+    margin-left: -40px;
+    padding: 10px 15px;
 }

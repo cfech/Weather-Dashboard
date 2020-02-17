@@ -6,6 +6,7 @@
     <title>Weather</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/958828ca48.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,35 +18,49 @@
     <main class="container col-12">
 
         <section class="row">
-            <div class="col-4 listDiv">
+            <div class="col-lg-3 col-md-12   listDiv">
 
 
 
 
-                <form id="1Day">
-                    <label for="one-day-input">Add a City</label>
-                    <input type="text" id="city-input"><br>
-        
+                <div id="1Day row searchLabel">
+                    <label for="one-day-input ">Search for a City</label>
+                </div>
+                <form class="row">
+
+                    <input type="text" id="city-input" class="col-7 offset-1 "><br>
+
                     <!-- Button triggers new movie to be added -->
-                    <input id="add-city" type="submit" value="Add-City" ß>
+                    <input id="add-city" type="submit" value="" class="col-1 searchButton" ß>
                 </form>
                 <div id="OneDayWeather"></div>
+
+
+                <ul class="list" style="list-style-type:none;">
+
+
+
+                </ul>
+
+
+
             </div>
 
 
-                
-            <div class="col-8 weatherDiv">
+
+            <div class="col-lg-9 col-md-12   weatherDiv">
 
                 <div class="row" id="dayForcast"></div>
                 <div class='row'>
-                    <h4>Five Day Forcast:</h4>
+                    <h4 class="forcast">5 Day Forcast:</h4>
+
                 </div>
                 <div class="row testRow">
-                    <div class="col-2 ml-4 fiveDay" id="nextDay"></div>
-                    <div class="col-2 ml-4 fiveDay" id ="dayTwo"></div>
-                    <div class="col-2 ml-4 fiveDay" id="dayThree"></div>
-                    <div class="col-2 ml-4 fiveDay" id = "dayFour"></div>
-                    <div class="col-2 ml-4 fiveDay" id = "dayFive"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="nextDay"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="dayTwo"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="dayThree"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="dayFour"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="dayFive"></div>
 
 
 

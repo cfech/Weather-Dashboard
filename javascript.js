@@ -1,22 +1,53 @@
-
+//Declared Variables 
+var pastSearches = []
 var lat
 var lon
 
-var tomorrow = moment().add(1, 'days').format("L"); 
-console.log(tomorrow)
-
+//Setting Date
 var date = (moment().format("L"))
-console.log(date)
 
+//trying to retrieve local storage 
+retrieveStorage()
+function retrieveStorage() {
+    if(localStorage.getItem("pastSearches") !== null){
+    prevSearches = localStorage.getItem("pastSearches").split(",")
+    console.log("TCL: retrieveStorage -> prevSearches", prevSearches)
+    pastSearches.push(prevSearches)
+    console.log(pastSearches)
 
+    //    prevSearchesArray.push(prevSearches)
+    //    console.log("TCL: retrieveStorage -> prevSearchesArray", prevSearchesArray)
+    for (i = 0; i < prevSearches.length && i < 10; i++) {
+        let searchItem = $("<li>")
+        searchItem.text(prevSearches[i])
+        $(".list").prepend(searchItem)
+    }
+}
+}
 
 $("#add-city").on("click", function () {
     event.preventDefault()
     $("#dayForcast").empty()
 
-    console.log("works")
+//setting location 
     var location = $("#city-input").val().trim();
-    console.log(location)
+    var firstLetter = location.charAt(0).toUpperCase()
+    var restWord = location.slice(1)
+    let locationC = (firstLetter + restWord)
+    console.log("TCL: location", locationC)
+
+    pastSearches.push(locationC)
+    console.log(pastSearches)
+    localStorage.setItem("pastSearches", pastSearches)
+    $(".list").empty()
+    
+// for loop for appending list items
+    for (i = 0; i < pastSearches.length && i < 10; i++) {
+        let searchItem = $("<li>")
+        searchItem.text(pastSearches[i])
+        $(".list").prepend(searchItem)
+
+    }
 
     var APIKey = "20c488e0a9aff750eabd58301c43b3ce"
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + location + "&appid=" + APIKey;
@@ -24,59 +55,55 @@ $("#add-city").on("click", function () {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(queryURL)
-        console.log(response)
 
         //initial div and city div 
         var weatherDiv = $("<div>")
         var cityDiv = $("<div>").addClass("bigger")
         var City = (response.name)
         var weather = (response.weather[0].main)
-        console.log(City)
-        cityDiv.text(City + " " + date + "  " + weather)
+        var weatherAnimation = $("<span>")
+
+        // applying class to weather animation span 
+
+        if (weather === "Clouds") {
+            weatherAnimation.addClass("fas fa-cloud fa-2x")
+        } else if (weather === "Rain") {
+            weatherAnimation.addClass("fas fa-cloud-rain fa-2x")
+        } else if (weather === "Clear") {
+            weatherAnimation.addClass("far fa-sun fa-2x")
+        } else if (weather === "Snow") {
+            weatherAnimation.addClass("fas fa-snowflake fa-2x")
+        }
+        cityDiv.text(City + " " + date + " " + weatherAnimation)
+
         //temperature
         var k = (response.main.temp)
         var f = (k - 273.5) * 1.80 + 32
-        console.log(k)
-        console.log(f.toFixed(2))
         var tempDIv = $("<div>")
-        tempDIv.text("Temperature : " + f.toFixed(2) + "F")
+        tempDIv.text("Temperature : " + f.toFixed(2) + "F").addClass("tempClass")
 
-        // humidty
+        // Humidty
         var humidity = (response.main.humidity)
         console.log(humidity)
         var humidityDiv = $("<div>")
-        humidityDiv.text("Humidity :  " + humidity + " %")
-        // windspeed
+        humidityDiv.text("Humidity :  " + humidity + " %").addClass("humidity")
+
+        // Windspeed
         var windSpeed = (response.wind.speed)
-        console.log(windSpeed)
         var windSpeedDiv = $("<div>")
-        windSpeedDiv.text("Wind Speed : " + windSpeed + " MPH")
-        $(weatherDiv).append(cityDiv, tempDIv, humidityDiv, windSpeedDiv)
+        windSpeedDiv.text("Wind Speed : " + windSpeed + " MPH").addClass("windSpeed")
+
+        //UV Index 
+        var UvIndexDiv = $("<div>")
+        var UvIndex
+        UvIndexDiv.text("UV Index:  ").addClass("UvIndex")
+
+        //Appending to page
+        $(weatherDiv).append(cityDiv, tempDIv, humidityDiv, windSpeedDiv, UvIndexDiv)
         $("#dayForcast").append(weatherDiv)
-
     })
-    //     lon = (response.coord.lon)
-    //     console.log(lon)
-    //     lat = (response.coord.lat)
-    //     console.log(lat)
-
-    // }).then
-    //uv index
-    // var APIKey = "20c488e0a9aff750eabd58301c43b3ce"
-
-    // var queryURL = "http://api.openweathermap.org/data/2.5/uvi?appid=20c488e0a9aff750eabd58301c43b3ce&lat={51.51}&lon={-0.13}"
-    // console.log(queryURL)
-    // $.ajax({
-    //     url: queryURL,
-    //     method: "GET"
-    // }).then(function (response) {
-    //     console.log(queryURL)
-    //     console.log(response)
-
 
     // 5 day api 
-
     var APIKey = "20c488e0a9aff750eabd58301c43b3ce"
     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + location + "&appid=" + APIKey
     console.log(queryURL)
@@ -84,20 +111,8 @@ $("#add-city").on("click", function () {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(queryURL)
-        console.log(response.list)
-        var nextDay = (response.list[4])
-        var dayTwo = (response.list[12])
-        var dayThree = (response.list[20])
-        var dayFour = (response.list[28])
-        var dayFive = (response.list[36])
-        console.log(nextDay)
-        console.log(dayTwo)
-        console.log(dayThree)
-        console.log(dayFour)
-        console.log(dayFive)
 
-        // next day 
+        // Emptying divs when new city is called  
         $("#nextDay").empty()
         $("#dayTwo").empty()
         $("#dayThree").empty()
@@ -105,186 +120,169 @@ $("#add-city").on("click", function () {
         $("#dayFive").empty()
 
 
-
+        //Next Day 
         var nextDayDiv = $("<div>")
-        //date 
-        var nextDayDate = moment().add(1, 'days').format("L")
-        console.log(nextDayDate)
 
+        //Date 
+        var nextDayDate = moment().add(1, 'days').format("L")
         var nextDayDateDiv = $("<div>").addClass("head")
         nextDayDateDiv.text(nextDayDate)
 
-
-
-        //get weather 
+        //Get weather 
         var weatherNextDay = (response.list[4].weather[0].main)
-
-        console.log(weatherNextDay)
-
         var weatherNextDayDiv = $("<div>")
-        weatherNextDayDiv.text(weatherNextDay)
 
+        // If statement for weather
+        if (weatherNextDay === "Clouds") {
+            weatherNextDayDiv.addClass("fas fa-cloud fa-2x")
+        } else if (weatherNextDay === "Rain") {
+            weatherNextDayDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (weatherNextDay === "Clear") {
+            weatherNextDayDiv.addClass("far fa-sun fa-2x")
+        } else if (weatherNextDay === "Snow") {
+            weatherNextDayDiv.addClass("fas fa-snowflake fa-2x")
+        }
 
-
-
-        // temperature 
+        // Temperature 
         var nextDayTempC = (response.list[4].main.temp)
         var fNextDay = (nextDayTempC - 273.5) * 1.80 + 32
         console.log(nextDayTempC)
         console.log(fNextDay.toFixed(2))
         var nextDayTempCDiv = $("<div>")
-        nextDayTempCDiv.text("Temp:  " + fNextDay.toFixed(2) + "  °F")
+        nextDayTempCDiv.text("Temp:  " + fNextDay.toFixed(2) + "  °F").addClass("tempClass")
 
-
-
-
-
-        // humidity
+        // Humidity
         var nextDayHumidity = (response.list[4].main.humidity)
         console.log(nextDayHumidity)
         var nextDayHumidityDiv = $("<div>")
-        nextDayHumidityDiv.text("Humidity:  " + nextDayHumidity + "%")
+        nextDayHumidityDiv.text("Humidity:  " + nextDayHumidity + "%").addClass("humidity")
 
+        //Appending to page 
         nextDayDiv.append(nextDayDateDiv, weatherNextDayDiv, nextDayTempCDiv, nextDayHumidityDiv)
         $("#nextDay").append(nextDayDiv)
 
-
-
-        // day 2
-
-
-
+        // Day 2
         var dayTwoDiv = $("<div>")
-        //date 
+
+        //Date 
         var dayTwoDate = moment().add(2, 'days').format("L")
-        console.log(dayTwoDate)
         var dayTwoDateDiv = $("<div>").addClass("head")
         dayTwoDateDiv.text(dayTwoDate)
 
-
-        //get weather 
+        //Get weather 
         var dayTwoWeather = (response.list[12].weather[0].main)
-
-        console.log(dayTwoWeather)
-
         var dayTwoWeatherDiv = $("<div>")
-        dayTwoWeatherDiv.text(dayTwoWeather)
 
+        //If statement for weather
+        if (dayTwoWeather === "Clouds") {
+            dayTwoWeatherDiv.addClass("fas fa-cloud fa-2x")
+        } else if (dayTwoWeather === "Rain") {
+            dayTwoWeatherDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (dayTwoWeather === "Clear") {
+            dayTwoWeatherDiv.addClass("far fa-sun fa-2x")
+        } else if (dayTwoWeather === "Snow") {
+            dayTwoWeatherDiv.addClass("fas fa-snowflake fa-2x")
+        }
 
-
-
-        // temperature 
+        // Temperature 
         var dayTwoTempC = (response.list[12].main.temp)
         var ftwo = (dayTwoTempC - 273.5) * 1.80 + 32
-        console.log(dayTwoTempC)
-        console.log(ftwo.toFixed(2))
         var dayTwoTempCDiv = $("<div>")
-        dayTwoTempCDiv.text("Temp:  " + ftwo.toFixed(2) + "  °F")
+        dayTwoTempCDiv.text("Temp:  " + ftwo.toFixed(2) + "  °F").addClass("tempClass")
 
-
-
-
-
-        // humidity
+        // Humidity
         var DayTwoHumidity = (response.list[12].main.humidity)
         console.log(DayTwoHumidity)
         var DayTwoHumidityDiv = $("<div>")
-        DayTwoHumidityDiv.text("Humidity:  " + DayTwoHumidity + "%")
+        DayTwoHumidityDiv.text("Humidity:  " + DayTwoHumidity + "%").addClass("humidity")
 
+        //Appending to page
         dayTwoDiv.append(dayTwoDateDiv, dayTwoWeatherDiv, dayTwoTempCDiv, DayTwoHumidityDiv)
         $("#dayTwo").append(dayTwoDiv)
 
         // Day 3 
-
         var dayThreeDiv = $("<div>")
-        //date 
+
+        //Date 
         var dayThreeDate = moment().add(3, 'days').format("L")
-        console.log(dayThreeDate)
         var dayThreeDateDiv = $("<div>").addClass("head")
         dayThreeDateDiv.text(dayThreeDate)
 
-
-        //get weather 
+        //Get weather 
         var dayThreeWeather = (response.list[20].weather[0].main)
-
-        console.log(dayThreeWeather)
-
         var dayThreeWeatherDiv = $("<div>")
-        dayThreeWeatherDiv.text(dayThreeWeather)
 
+        //If statement for weather
+        if (dayThreeWeather === "Clouds") {
+            dayThreeWeatherDiv.addClass("fas fa-cloud fa-2x")
+        } else if (dayThreeWeather === "Rain") {
+            dayThreeWeatherDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (dayThreeWeather === "Clear") {
+            dayThreeWeatherDiv.addClass("far fa-sun fa-2x")
+        } else if (dayThreeWeather === "Snow") {
+            dayThreeWeatherDiv.addClass("fas fa-snowflake fa-2x")
+        }
 
-
-
-        // temperature 
+        // Temperature 
         var dayThreeTempC = (response.list[20].main.temp)
         var fthree = (dayThreeTempC - 273.5) * 1.80 + 32
         console.log(dayThreeTempC)
         console.log(fthree.toFixed(2))
         var dayThreeTempCDiv = $("<div>")
-        dayThreeTempCDiv.text("Temp:  " + fthree.toFixed(2) + "  °F")
+        dayThreeTempCDiv.text("Temp:  " + fthree.toFixed(2) + "  °F").addClass("tempClass")
 
-
-
-
-
-        // humidity
+       // Humidity
         var dayThreeHumidity = (response.list[20].main.humidity)
-        console.log(dayThreeHumidity)
         var dayThreeHumidityDiv = $("<div>")
-        dayThreeHumidityDiv.text("Humidity:  " + dayThreeHumidity + "%")
+        dayThreeHumidityDiv.text("Humidity:  " + dayThreeHumidity + "%").addClass("humidity")
 
+        //Appending to page 
         dayThreeDiv.append(dayThreeDateDiv, dayThreeWeatherDiv, dayThreeTempCDiv, dayThreeHumidityDiv)
         $("#dayThree").append(dayThreeDiv)
 
-
-
-
         // Day 4 
-
         var dayFourDiv = $("<div>")
+
         //date 
         var dayFourDate = moment().add(4, 'days').format("L")
-        console.log(dayFourDate)
         var dayFourDateDiv = $("<div>").addClass("head")
         dayFourDateDiv.text(dayFourDate)
 
 
-        //get weather 
+        //Get weather 
         var dayFourWeather = (response.list[28].weather[0].main)
-
-        console.log(dayFourWeather)
-
         var dayFourWeatherDiv = $("<div>")
-        dayFourWeatherDiv.text(dayFourWeather)
 
+        // If statement for weather
+        if (dayFourWeather === "Clouds") {
+            dayFourWeatherDiv.addClass("fas fa-cloud fa-2x fa-2x")
+        } else if (dayFourWeather === "Rain") {
+            dayFourWeatherDiv.addClass("fas fa-cloud-rain fa-2x fa-2x")
+        } else if (dayFourWeather === "Clear") {
+            dayFourWeatherDiv.addClass("far fa-sun fa-2x fa-2x")
+        } else if (dayFourWeather === "Snow") {
+            dayFourWeatherDiv.addClass("fas fa-snowflake fa-2x fa-2x")
+        }
 
-
-
-        // temperature 
+        // Temperature 
         var dayFourTempC = (response.list[28].main.temp)
         var fFive = (dayFourTempC - 273.5) * 1.80 + 32
-        console.log(dayFourTempC)
-        console.log(fFive.toFixed(2))
         var dayFourTempCDiv = $("<div>")
-        dayFourTempCDiv.text("Temp:  " + fFive.toFixed(2) + "  °F")
+        dayFourTempCDiv.text("Temp:  " + fFive.toFixed(2) + "  °F").addClass("tempClass")
 
-
-
-
-
-        // humidity
+        // Humidity
         var dayFourHumidity = (response.list[28].main.humidity)
-        console.log(dayFourHumidity)
         var dayFourHumidityDiv = $("<div>")
-        dayFourHumidityDiv.text("Humidity:  " + dayFourHumidity + "%")
+        dayFourHumidityDiv.text("Humidity:  " + dayFourHumidity + "%").addClass("humidity")
 
+        // Appending to page 
         dayFourDiv.append(dayFourDateDiv, dayFourWeatherDiv, dayFourTempCDiv, dayFourHumidityDiv)
         $("#dayFour").append(dayFourDiv)
 
 
         // Day 5 
-
         var dayFiveDiv = $("<div>")
+
         //date 
         var dayFiveDate = moment().add(5, 'days').format("L")
         console.log(dayFiveDate)
@@ -292,73 +290,43 @@ $("#add-city").on("click", function () {
         dayFiveDateDiv.text(dayFiveDate)
 
 
-        //get weather 
+        //Get weather 
         var dayFiveWeather = (response.list[36].weather[0].main)
-
-        console.log(dayFiveWeather)
-
         var dayFiveWeatherDiv = $("<div>")
-        dayFiveWeatherDiv.text(dayFiveWeather)
 
+        //If Statement for Weather
+        if (dayFiveWeather === "Clouds") {
+            dayFiveWeatherDiv.addClass("fas fa-cloud fa-2x")
+        } else if (dayFiveWeather === "Rain") {
+            dayFiveWeatherDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (dayFiveWeather === "Clear") {
+            dayFiveWeatherDiv.addClass("far fa-sun fa-2x")
+        } else if (dayFiveWeather === "Snow") {
+            dayFiveWeatherDiv.addClass("fas fa-snowflake fa-2x")
+        }
 
-
-
-        // temperature 
+        // Temperature 
         var dayFiveTempC = (response.list[36].main.temp)
         var fFour = (dayFiveTempC - 273.5) * 1.80 + 32
         console.log(dayFiveTempC)
         console.log(fFour.toFixed(2))
         var dayFiveTempCDiv = $("<div>")
-        dayFiveTempCDiv.text("Temp:  " + fFour.toFixed(2) + "  °F")
+        dayFiveTempCDiv.text("Temp:  " + fFour.toFixed(2) + "  °F").addClass("tempClass")
 
-
-
-
-
-        // humidity
+        // Humidity
         var dayFiveHumidity = (response.list[36].main.humidity)
         console.log(dayFiveHumidity)
         var dayFiveHumidityDiv = $("<div>")
-        dayFiveHumidityDiv.text("Humidity:  " + dayFiveHumidity + "%")
+        dayFiveHumidityDiv.text("Humidity:  " + dayFiveHumidity + "%").addClass("humidity")
 
+        //Appending to page 
         dayFiveDiv.append(dayFiveDateDiv, dayFiveWeatherDiv, dayFiveTempCDiv, dayFiveHumidityDiv)
         $("#dayFive").append(dayFiveDiv)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
 
+
+// trying to add UV 
 
 // $("#addACity").on("click", function () {
 //     event.preventDefault()
@@ -378,13 +346,7 @@ $("#add-city").on("click", function () {
 
 
 
-
-
-
-
-
 //     })
-// })
 
 
 
