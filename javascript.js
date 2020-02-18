@@ -6,30 +6,321 @@ var lon
 //Setting Date
 var date = (moment().format("L"))
 
-//trying to retrieve local storage 
-retrieveStorage()
-function retrieveStorage() {
-    if(localStorage.getItem("pastSearches") !== null){
-    prevSearches = localStorage.getItem("pastSearches").split(",")
-    console.log("TCL: retrieveStorage -> prevSearches", prevSearches)
-    pastSearches.push(prevSearches)
-    console.log(pastSearches)
+//trying to retrieve local storage for list 
+retrieveDailyWeatherStorage()
+retrieveListStorage()
+function retrieveListStorage() {
+    if (localStorage.getItem("pastSearches") !== null) {
+        prevSearches = localStorage.getItem("pastSearches").split(",")
+        console.log("TCL: retrieveStorage -> prevSearches", prevSearches)
+        pastSearches.push(prevSearches)
+        console.log(pastSearches)
 
-    //    prevSearchesArray.push(prevSearches)
-    //    console.log("TCL: retrieveStorage -> prevSearchesArray", prevSearchesArray)
-    for (i = 0; i < prevSearches.length && i < 10; i++) {
-        let searchItem = $("<li>")
-        searchItem.text(prevSearches[i])
-        $(".list").prepend(searchItem)
+        //    prevSearchesArray.push(prevSearches)
+        //    console.log("TCL: retrieveStorage -> prevSearchesArray", prevSearchesArray)
+        for (i = 0; i < prevSearches.length && i < 10; i++) {
+            let searchItem = $("<li>")
+            searchItem.text(prevSearches[i])
+            $(".list").prepend(searchItem)
+        }
     }
 }
+
+
+
+
+
+//if (localStorage.getItem("2PM") === null) {
+//} else {
+
+//Retrieving local storage for weather divs 
+function retrieveDailyWeatherStorage() {
+    var localWeatherDiv = $("<div>")
+    if (localStorage.getItem("InitialCity") !== null && localStorage.getItem("initialWeather") !== null && localStorage.getItem("initialTempFixed") !== null && localStorage.getItem("initialHumidity") !== null && localStorage.getItem("initialWindSpeed") !== null && localStorage.getItem("initalUvIndex") !== null) {
+        var LocalCityDiv = $("<div>").addClass("bigger")
+        var LocalCity = localStorage.getItem("InitialCity")
+
+
+        var localWeather = localStorage.getItem("initialWeather")
+        var LocalWeatherAnimation = $("<span>")
+
+
+        // applying class to weather animation span 
+
+        if (localWeather === "Clouds") {
+            LocalWeatherAnimation.addClass("fas fa-cloud fa-2x")
+        } else if (localWeather === "Rain") {
+            LocalWeatherAnimation.addClass("fas fa-cloud-rain fa-2x")
+        } else if (localWeather === "Clear") {
+            LocalWeatherAnimation.addClass("far fa-sun fa-2x")
+        } else if (localWeather === "Snow") {
+            LocalWeatherAnimation.addClass("fas fa-snowflake fa-2x")
+        }
+        LocalCityDiv.text(LocalCity + " " + date + " " + LocalWeatherAnimation)
+
+
+        //temperature---------------------------------------------------------------
+        var localTempF = localStorage.getItem("initialTempFixed")
+
+        var LocalTempDiv = $("<div>")
+        LocalTempDiv.text("Temperature : " + localTempF + "F").addClass("tempClass")
+
+
+        // Humidity
+        var localHumidity = localStorage.getItem("initialHumidity")
+        var localHumidityDiv = $("<div>")
+        localHumidityDiv.text("Humidity :  " + localHumidity + " %").addClass("humidity")
+
+        // Wind Speed
+        var localWindSpeed = localStorage.getItem("initialWindSpeed")
+        var localWindSpeedDiv = $("<div>")
+        localWindSpeedDiv.text("Wind Speed : " + localWindSpeed + " MPH").addClass("windSpeed")
+
+
+        //UV Index 
+        var localUvIndexDiv = $("<div>")
+        var localUvIndex = localStorage.getItem("initalUvIndex")
+        localUvIndexDiv.text("UV Index:  ").addClass("UvIndex")
+
+
+
+        //Appending to page
+        $(localWeatherDiv).append(LocalCityDiv, LocalTempDiv, localHumidityDiv, localWindSpeedDiv, localUvIndexDiv)
+        $("#dayForcast").append(localWeatherDiv)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //For Day One 
+    var localNextDayDiv = $("<div>")
+    if (localStorage.getItem("nextDayDate") !== null && localStorage.getItem("weatherNextDay") !== null && localStorage.getItem("fNextDay") !== null && localStorage.getItem("nextDayHumidity") !== null) {
+
+        // GET Date 
+        var localNextDayDate = localStorage.getItem("nextDayDate")
+        console.log(localNextDayDate)
+        var LocalNextDayDateDiv = $("<div>").addClass("head")
+        LocalNextDayDateDiv.text(localNextDayDate)
+
+        //Get weather 
+        var LocalWeatherNextDay = localStorage.getItem("weatherNextDay")
+        var LocalWeatherNextDayDiv = $("<div>")
+
+        // If statement for weather
+        if (LocalWeatherNextDay === "Clouds") {
+            LocalWeatherNextDayDiv.addClass("fas fa-cloud fa-2x")
+        } else if (LocalWeatherNextDay === "Rain") {
+            LocalWeatherNextDayDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (LocalWeatherNextDay === "Clear") {
+            LocalWeatherNextDayDiv.addClass("far fa-sun fa-2x")
+        } else if (LocalWeatherNextDay === "Snow") {
+            LocalWeatherNextDayDiv.addClass("fas fa-snowflake fa-2x")
+        }
+
+        // Temperature 
+        var localFNextDay = localStorage.getItem("fNextDay")
+        console.log(localFNextDay)
+        var LocalNextDayTempCDiv = $("<div>")
+        LocalNextDayTempCDiv.text("Temp:  " + localFNextDay + "  °F").addClass("tempClass")
+
+        // Humidity
+        var LocalNextDayHumidity = localStorage.getItem("nextDayHumidity")
+        var LocalNextDayHumidityDiv = $("<div>")
+        LocalNextDayHumidityDiv.text("Humidity:  " + LocalNextDayHumidity + "%").addClass("humidity")
+        localNextDayDiv.append(LocalNextDayDateDiv, LocalWeatherNextDayDiv, LocalNextDayTempCDiv, LocalNextDayHumidityDiv)
+        $("#nextDay").append(localNextDayDiv)
+    }
+
+    //For day two 
+    var localDayTwoDiv = $("<div>")
+    if (localStorage.getItem("dayTwoDate") !== null && localStorage.getItem("dayTwoWeather") !== null && localStorage.getItem("dayTwoFixedTemp") !== null && localStorage.getItem("dayTwoHumidity") !== null) {
+
+        // GET Date 
+        var localDayTwoDate = localStorage.getItem("dayTwoDate")
+        var LocalDayTwoDateDiv = $("<div>").addClass("head")
+        LocalDayTwoDateDiv.text(localDayTwoDate)
+
+        //Get weather 
+        var LocalWeatherDayTwo = localStorage.getItem("dayTwoWeather")
+        var LocalWeatherDayTwoDiv = $("<div>")
+
+        // If statement for weather
+        if (LocalWeatherDayTwo === "Clouds") {
+            LocalWeatherDayTwoDiv.addClass("fas fa-cloud fa-2x")
+        } else if (LocalWeatherDayTwo === "Rain") {
+            LocalWeatherDayTwoDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (LocalWeatherDayTwo === "Clear") {
+            LocalWeatherDayTwoDiv.addClass("far fa-sun fa-2x")
+        } else if (LocalWeatherDayTwo === "Snow") {
+            LocalWeatherDayTwoDiv.addClass("fas fa-snowflake fa-2x")
+        }
+
+        // Temperature 
+        var localFDayTwo = localStorage.getItem("dayTwoFixedTemp")
+        var LocalDayTwoTempDiv = $("<div>")
+        LocalDayTwoTempDiv.text("Temp:  " + localFDayTwo + "  °F").addClass("tempClass")
+
+        // Humidity
+        var LocalDayTwoHumidity = localStorage.getItem("dayTwoHumidity")
+        var LocalDayTwoHumidityDiv = $("<div>")
+        LocalDayTwoHumidityDiv.text("Humidity:  " + LocalDayTwoHumidity + "%").addClass("humidity")
+
+        // Appending to page 
+        localDayTwoDiv.append(LocalDayTwoDateDiv, LocalWeatherDayTwoDiv, LocalDayTwoTempDiv, LocalDayTwoHumidityDiv)
+        $("#dayTwo").append(localDayTwoDiv)
+    }
+
+    //For day three
+    var localDayThreeDiv = $("<div>")
+    if (localStorage.getItem("dayThreeDate") !== null && localStorage.getItem("dayThreeWeather") !== null && localStorage.getItem("dayThreeTempFixed") !== null && localStorage.getItem("dayThreeHumidity") !== null) {
+
+        // GET Date 
+        var localDayThreeDate = localStorage.getItem("dayThreeDate")
+        var LocalDayThreeDateDiv = $("<div>").addClass("head")
+        LocalDayThreeDateDiv.text(localDayThreeDate)
+
+        //Get weather 
+        var LocalWeatherDayThree = localStorage.getItem("dayThreeWeather")
+        var LocalWeatherDayThreeDiv = $("<div>")
+
+        // If statement for weather
+        if (LocalWeatherDayThree === "Clouds") {
+            LocalWeatherDayThreeDiv.addClass("fas fa-cloud fa-2x")
+        } else if (LocalWeatherDayThree === "Rain") {
+            LocalWeatherDayThreeDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (LocalWeatherDayThree === "Clear") {
+            LocalWeatherDayThreeDiv.addClass("far fa-sun fa-2x")
+        } else if (LocalWeatherDayThree === "Snow") {
+            LocalWeatherDayThreeDiv.addClass("fas fa-snowflake fa-2x")
+        }
+
+        // Temperature 
+        var localFDayThree = localStorage.getItem("dayThreeTempFixed")
+        var LocalDayThreeTempDiv = $("<div>")
+        LocalDayThreeTempDiv.text("Temp:  " + localFDayThree + "  °F").addClass("tempClass")
+
+        // Humidity
+        var LocalDayThreeHumidity = localStorage.getItem("dayThreeHumidity")
+        var LocalDayThreeHumidityDiv = $("<div>")
+        LocalDayThreeHumidityDiv.text("Humidity:  " + LocalDayThreeHumidity + "%").addClass("humidity")
+
+        // Appending to page 
+        localDayThreeDiv.append(LocalDayThreeDateDiv, LocalWeatherDayThreeDiv, LocalDayThreeTempDiv, LocalDayThreeHumidityDiv)
+        $("#dayThree").append(localDayThreeDiv)
+    }
+
+
+    //For day four
+    var localDayFourDiv = $("<div>")
+    if (localStorage.getItem("dayFourDate") !== null && localStorage.getItem("dayFourWeather") !== null && localStorage.getItem("dayFourFixedTemp") !== null && localStorage.getItem("dayFourHumidity") !== null) {
+
+        // GET Date 
+        var localDayFourDate = localStorage.getItem("dayFourDate")
+        var LocalDayFourDateDiv = $("<div>").addClass("head")
+        LocalDayFourDateDiv.text(localDayFourDate)
+
+        //Get weather 
+        var LocalWeatherDayFour = localStorage.getItem("dayFourWeather")
+        var LocalWeatherDayFourDiv = $("<div>")
+
+        // If statement for weather
+        if (LocalWeatherDayFour === "Clouds") {
+            LocalWeatherDayFourDiv.addClass("fas fa-cloud fa-2x")
+        } else if (LocalWeatherDayFour === "Rain") {
+            LocalWeatherDayFourDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (LocalWeatherDayFour === "Clear") {
+            LocalWeatherDayFourDiv.addClass("far fa-sun fa-2x")
+        } else if (LocalWeatherDayFour === "Snow") {
+            LocalWeatherDayFourDiv.addClass("fas fa-snowflake fa-2x")
+        }
+
+        // Temperature 
+        var localFDayFour = localStorage.getItem("dayFourFixedTemp")
+        var LocalDayFourTempDiv = $("<div>")
+        LocalDayFourTempDiv.text("Temp:  " + localFDayFour + "  °F").addClass("tempClass")
+
+        // Humidity 
+        var LocalDayFourHumidity = localStorage.getItem("dayFourHumidity")
+        var LocalDayFourHumidityDiv = $("<div>")
+        LocalDayFourHumidityDiv.text("Humidity:  " + LocalDayFourHumidity + "%").addClass("humidity")
+
+        // Appending to page 
+        localDayFourDiv.append(LocalDayFourDateDiv, LocalWeatherDayFourDiv, LocalDayFourTempDiv, LocalDayFourHumidityDiv)
+        $("#dayFour").append(localDayFourDiv)
+    }
+
+    //For day five
+    var localDayFiveDiv = $("<div>")
+    if (localStorage.getItem("dayFiveDate") !== null && localStorage.getItem("dayFiveWeather") !== null && localStorage.getItem("dayFiveFixedTemp") !== null && localStorage.getItem("dayFiveHumidity") !== null) {
+
+        // GET Date 
+        var localDayFiveDate = localStorage.getItem("dayFiveDate")
+        var LocalDayFiveDateDiv = $("<div>").addClass("head")
+        LocalDayFiveDateDiv.text(localDayFiveDate)
+
+        //Get weather 
+        var LocalWeatherDayFive = localStorage.getItem("dayFiveWeather")
+        var LocalWeatherDayFiveDiv = $("<div>")
+
+        // If statement for weather
+        if (LocalWeatherDayFive === "Clouds") {
+            LocalWeatherDayFiveDiv.addClass("fas fa-cloud fa-2x")
+        } else if (LocalWeatherDayFive === "Rain") {
+            LocalWeatherDayFiveDiv.addClass("fas fa-cloud-rain fa-2x")
+        } else if (LocalWeatherDayFive === "Clear") {
+            LocalWeatherDayFiveDiv.addClass("far fa-sun fa-2x")
+        } else if (LocalWeatherDayFive === "Snow") {
+            LocalWeatherDayFiveDiv.addClass("fas fa-snowflake fa-2x")
+        }
+
+        // Temperature 
+        var localFDayFive = localStorage.getItem("dayFiveFixedTemp")
+        var LocalDayFiveTempDiv = $("<div>")
+        LocalDayFiveTempDiv.text("Temp:  " + localFDayFive + "  °F").addClass("tempClass")
+
+        // Humidity 
+        var LocalDayFiveHumidity = localStorage.getItem("dayFiveHumidity")
+        var LocalDayFiveHumidityDiv = $("<div>")
+        LocalDayFiveHumidityDiv.text("Humidity:  " + LocalDayFiveHumidity + "%").addClass("humidity")
+
+        // Appending to page 
+        localDayFiveDiv.append(LocalDayFiveDateDiv, LocalWeatherDayFiveDiv, LocalDayFiveTempDiv, LocalDayFiveHumidityDiv)
+        $("#dayFive").append(localDayFiveDiv)
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 $("#add-city").on("click", function () {
     event.preventDefault()
     $("#dayForcast").empty()
 
-//setting location 
+    //setting location 
     var location = $("#city-input").val().trim();
     var firstLetter = location.charAt(0).toUpperCase()
     var restWord = location.slice(1)
@@ -40,8 +331,8 @@ $("#add-city").on("click", function () {
     console.log(pastSearches)
     localStorage.setItem("pastSearches", pastSearches)
     $(".list").empty()
-    
-// for loop for appending list items
+
+    // for loop for appending list items
     for (i = 0; i < pastSearches.length && i < 10; i++) {
         let searchItem = $("<li>")
         searchItem.text(pastSearches[i])
@@ -59,9 +350,11 @@ $("#add-city").on("click", function () {
         //initial div and city div 
         var weatherDiv = $("<div>")
         var cityDiv = $("<div>").addClass("bigger")
-        var City = (response.name)
+        var city = (response.name)
+        localStorage.setItem("InitialCity", city)
         var weather = (response.weather[0].main)
         var weatherAnimation = $("<span>")
+        localStorage.setItem("initialWeather", weather)
 
         // applying class to weather animation span 
 
@@ -74,32 +367,37 @@ $("#add-city").on("click", function () {
         } else if (weather === "Snow") {
             weatherAnimation.addClass("fas fa-snowflake fa-2x")
         }
-        cityDiv.text(City + " " + date + " " + weatherAnimation)
+        cityDiv.text(city + " " + date + " " + weatherAnimation)
 
         //temperature
         var k = (response.main.temp)
         var f = (k - 273.5) * 1.80 + 32
-        var tempDIv = $("<div>")
-        tempDIv.text("Temperature : " + f.toFixed(2) + "F").addClass("tempClass")
+        var tempDiv = $("<div>")
+        tempDiv.text("Temperature : " + f.toFixed(2) + "F").addClass("tempClass")
+        localStorage.setItem("initialTempFixed", f.toFixed(2))
 
-        // Humidty
+        // Humidity
         var humidity = (response.main.humidity)
         console.log(humidity)
         var humidityDiv = $("<div>")
         humidityDiv.text("Humidity :  " + humidity + " %").addClass("humidity")
+        localStorage.setItem("initialHumidity", humidity)
 
-        // Windspeed
+        // Wind Speed
         var windSpeed = (response.wind.speed)
         var windSpeedDiv = $("<div>")
         windSpeedDiv.text("Wind Speed : " + windSpeed + " MPH").addClass("windSpeed")
+        localStorage.setItem("initialWindSpeed", windSpeed)
 
         //UV Index 
         var UvIndexDiv = $("<div>")
-        var UvIndex
+        var UvIndex = 5
         UvIndexDiv.text("UV Index:  ").addClass("UvIndex")
+        localStorage.setItem("initalUvIndex", UvIndex)
+
 
         //Appending to page
-        $(weatherDiv).append(cityDiv, tempDIv, humidityDiv, windSpeedDiv, UvIndexDiv)
+        $(weatherDiv).append(cityDiv, tempDiv, humidityDiv, windSpeedDiv, UvIndexDiv)
         $("#dayForcast").append(weatherDiv)
     })
 
@@ -125,11 +423,13 @@ $("#add-city").on("click", function () {
 
         //Date 
         var nextDayDate = moment().add(1, 'days').format("L")
+        localStorage.setItem("nextDayDate", nextDayDate)
         var nextDayDateDiv = $("<div>").addClass("head")
         nextDayDateDiv.text(nextDayDate)
 
         //Get weather 
         var weatherNextDay = (response.list[4].weather[0].main)
+        localStorage.setItem("weatherNextDay", weatherNextDay)
         var weatherNextDayDiv = $("<div>")
 
         // If statement for weather
@@ -148,12 +448,14 @@ $("#add-city").on("click", function () {
         var fNextDay = (nextDayTempC - 273.5) * 1.80 + 32
         console.log(nextDayTempC)
         console.log(fNextDay.toFixed(2))
+        localStorage.setItem("fNextDay", fNextDay.toFixed(2))
         var nextDayTempCDiv = $("<div>")
         nextDayTempCDiv.text("Temp:  " + fNextDay.toFixed(2) + "  °F").addClass("tempClass")
 
         // Humidity
         var nextDayHumidity = (response.list[4].main.humidity)
         console.log(nextDayHumidity)
+        localStorage.setItem("nextDayHumidity", nextDayHumidity)
         var nextDayHumidityDiv = $("<div>")
         nextDayHumidityDiv.text("Humidity:  " + nextDayHumidity + "%").addClass("humidity")
 
@@ -162,16 +464,21 @@ $("#add-city").on("click", function () {
         $("#nextDay").append(nextDayDiv)
 
         // Day 2
+        // var dayTwoArray = []
         var dayTwoDiv = $("<div>")
 
         //Date 
         var dayTwoDate = moment().add(2, 'days').format("L")
         var dayTwoDateDiv = $("<div>").addClass("head")
+        localStorage.setItem("dayTwoDate", dayTwoDate)
+        // dayTwoArray.push(dayTwoDate)
         dayTwoDateDiv.text(dayTwoDate)
 
         //Get weather 
         var dayTwoWeather = (response.list[12].weather[0].main)
         var dayTwoWeatherDiv = $("<div>")
+        // dayTwoArray.push(dayTwoWeather)
+        localStorage.setItem("dayTwoWeather", dayTwoWeather)
 
         //If statement for weather
         if (dayTwoWeather === "Clouds") {
@@ -186,18 +493,35 @@ $("#add-city").on("click", function () {
 
         // Temperature 
         var dayTwoTempC = (response.list[12].main.temp)
-        var ftwo = (dayTwoTempC - 273.5) * 1.80 + 32
+        var fTwo = (dayTwoTempC - 273.5) * 1.80 + 32
         var dayTwoTempCDiv = $("<div>")
-        dayTwoTempCDiv.text("Temp:  " + ftwo.toFixed(2) + "  °F").addClass("tempClass")
+        var dayTwoFixedTemp = fTwo.toFixed(2)
+        localStorage.setItem("dayTwoFixedTemp", dayTwoFixedTemp)
+        dayTwoTempCDiv.text("Temp:  " + dayTwoFixedTemp + "  °F").addClass("tempClass")
+        // dayTwoArray.push(fTwo)
 
         // Humidity
-        var DayTwoHumidity = (response.list[12].main.humidity)
-        console.log(DayTwoHumidity)
-        var DayTwoHumidityDiv = $("<div>")
-        DayTwoHumidityDiv.text("Humidity:  " + DayTwoHumidity + "%").addClass("humidity")
+        var dayTwoHumidity = (response.list[12].main.humidity)
+        console.log(dayTwoHumidity)
+        var dayTwoHumidityDiv = $("<div>")
+        dayTwoHumidityDiv.text("Humidity:  " + dayTwoHumidity + "%").addClass("humidity")
+        localStorage.setItem("dayTwoHumidity", dayTwoHumidity)
+
+
+
+
+
+
+
+
+        // dayTwoArray.push(dayTwoHumidity)
+        // console.log("TCL: dayTwoArray", dayTwoArray)
+
+        //setting day two array to local storage
+        // localStorage.setItem("dayTwoArray", dayTwoArray)
 
         //Appending to page
-        dayTwoDiv.append(dayTwoDateDiv, dayTwoWeatherDiv, dayTwoTempCDiv, DayTwoHumidityDiv)
+        dayTwoDiv.append(dayTwoDateDiv, dayTwoWeatherDiv, dayTwoTempCDiv, dayTwoHumidityDiv)
         $("#dayTwo").append(dayTwoDiv)
 
         // Day 3 
@@ -207,10 +531,12 @@ $("#add-city").on("click", function () {
         var dayThreeDate = moment().add(3, 'days').format("L")
         var dayThreeDateDiv = $("<div>").addClass("head")
         dayThreeDateDiv.text(dayThreeDate)
+        localStorage.setItem("dayThreeDate", dayThreeDate)
 
         //Get weather 
         var dayThreeWeather = (response.list[20].weather[0].main)
         var dayThreeWeatherDiv = $("<div>")
+        localStorage.setItem("dayThreeWeather", dayThreeWeather)
 
         //If statement for weather
         if (dayThreeWeather === "Clouds") {
@@ -225,16 +551,18 @@ $("#add-city").on("click", function () {
 
         // Temperature 
         var dayThreeTempC = (response.list[20].main.temp)
-        var fthree = (dayThreeTempC - 273.5) * 1.80 + 32
+        var fThree = (dayThreeTempC - 273.5) * 1.80 + 32
         console.log(dayThreeTempC)
-        console.log(fthree.toFixed(2))
+        console.log(fThree.toFixed(2))
         var dayThreeTempCDiv = $("<div>")
-        dayThreeTempCDiv.text("Temp:  " + fthree.toFixed(2) + "  °F").addClass("tempClass")
+        dayThreeTempCDiv.text("Temp:  " + fThree.toFixed(2) + "  °F").addClass("tempClass")
+        localStorage.setItem("dayThreeTempFixed", fThree.toFixed(2))
 
-       // Humidity
+        // Humidity
         var dayThreeHumidity = (response.list[20].main.humidity)
         var dayThreeHumidityDiv = $("<div>")
         dayThreeHumidityDiv.text("Humidity:  " + dayThreeHumidity + "%").addClass("humidity")
+        localStorage.setItem("dayThreeHumidity", dayThreeHumidity)
 
         //Appending to page 
         dayThreeDiv.append(dayThreeDateDiv, dayThreeWeatherDiv, dayThreeTempCDiv, dayThreeHumidityDiv)
@@ -247,11 +575,13 @@ $("#add-city").on("click", function () {
         var dayFourDate = moment().add(4, 'days').format("L")
         var dayFourDateDiv = $("<div>").addClass("head")
         dayFourDateDiv.text(dayFourDate)
+        localStorage.setItem("dayFourDate", dayFourDate)
 
 
         //Get weather 
         var dayFourWeather = (response.list[28].weather[0].main)
         var dayFourWeatherDiv = $("<div>")
+        localStorage.setItem("dayFourWeather", dayFourWeather)
 
         // If statement for weather
         if (dayFourWeather === "Clouds") {
@@ -266,14 +596,17 @@ $("#add-city").on("click", function () {
 
         // Temperature 
         var dayFourTempC = (response.list[28].main.temp)
-        var fFive = (dayFourTempC - 273.5) * 1.80 + 32
+        var fFour = (dayFourTempC - 273.5) * 1.80 + 32
         var dayFourTempCDiv = $("<div>")
-        dayFourTempCDiv.text("Temp:  " + fFive.toFixed(2) + "  °F").addClass("tempClass")
+        dayFourTempCDiv.text("Temp:  " + fFour.toFixed(2) + "  °F").addClass("tempClass")
+        localStorage.setItem("dayFourFixedTemp", fFour.toFixed(2))
+
 
         // Humidity
         var dayFourHumidity = (response.list[28].main.humidity)
         var dayFourHumidityDiv = $("<div>")
         dayFourHumidityDiv.text("Humidity:  " + dayFourHumidity + "%").addClass("humidity")
+        localStorage.setItem("dayFourHumidity", dayFourHumidity)
 
         // Appending to page 
         dayFourDiv.append(dayFourDateDiv, dayFourWeatherDiv, dayFourTempCDiv, dayFourHumidityDiv)
@@ -288,11 +621,13 @@ $("#add-city").on("click", function () {
         console.log(dayFiveDate)
         var dayFiveDateDiv = $("<div>").addClass("head")
         dayFiveDateDiv.text(dayFiveDate)
+        localStorage.setItem("dayFiveDate", dayFiveDate)
 
 
         //Get weather 
         var dayFiveWeather = (response.list[36].weather[0].main)
         var dayFiveWeatherDiv = $("<div>")
+        localStorage.setItem("dayFiveWeather", dayFiveWeather)
 
         //If Statement for Weather
         if (dayFiveWeather === "Clouds") {
@@ -307,17 +642,19 @@ $("#add-city").on("click", function () {
 
         // Temperature 
         var dayFiveTempC = (response.list[36].main.temp)
-        var fFour = (dayFiveTempC - 273.5) * 1.80 + 32
+        var fFive = (dayFiveTempC - 273.5) * 1.80 + 32
         console.log(dayFiveTempC)
-        console.log(fFour.toFixed(2))
+        console.log(fFive.toFixed(2))
         var dayFiveTempCDiv = $("<div>")
-        dayFiveTempCDiv.text("Temp:  " + fFour.toFixed(2) + "  °F").addClass("tempClass")
+        dayFiveTempCDiv.text("Temp:  " + fFive.toFixed(2) + "  °F").addClass("tempClass")
+        localStorage.setItem("dayFiveFixedTemp", fFive.toFixed(2))
 
         // Humidity
         var dayFiveHumidity = (response.list[36].main.humidity)
         console.log(dayFiveHumidity)
         var dayFiveHumidityDiv = $("<div>")
         dayFiveHumidityDiv.text("Humidity:  " + dayFiveHumidity + "%").addClass("humidity")
+        localStorage.setItem("dayFiveHumidity", dayFiveHumidity)
 
         //Appending to page 
         dayFiveDiv.append(dayFiveDateDiv, dayFiveWeatherDiv, dayFiveTempCDiv, dayFiveHumidityDiv)
