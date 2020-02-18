@@ -6,22 +6,32 @@ var lon
 //Setting Date
 var date = (moment().format("L"))
 
+
+
+
+
+
+
 //trying to retrieve local storage for list 
 retrieveDailyWeatherStorage()
 retrieveListStorage()
 function retrieveListStorage() {
     if (localStorage.getItem("pastSearches") !== null) {
-        prevSearches = localStorage.getItem("pastSearches").split(",")
+        var prevSearches = []
+        prevSearches = localStorage.getItem("pastSearches").split(",").reverse()
         console.log("TCL: retrieveStorage -> prevSearches", prevSearches)
-        pastSearches.push(prevSearches)
+        for(i=0 ;i<prevSearches.length && i<5; i++ ){
+            pastSearches.push(prevSearches[i])
+        }
+        
         console.log(pastSearches)
 
         //    prevSearchesArray.push(prevSearches)
         //    console.log("TCL: retrieveStorage -> prevSearchesArray", prevSearchesArray)
-        for (i = 0; i < prevSearches.length && i < 10; i++) {
+        for (i = 0; i < 5 && i <prevSearches.length; i++) {
             let searchItem = $("<li>")
             searchItem.text(prevSearches[i])
-            $(".list").prepend(searchItem)
+            $(".list").append(searchItem)
         }
     }
 }
@@ -42,21 +52,28 @@ function retrieveDailyWeatherStorage() {
 
 
         var localWeather = localStorage.getItem("initialWeather")
-        var LocalWeatherAnimation = $("<span>")
+        var localWeatherAnimation = $("<span>")
+        console.log("TCL: retrieveDailyWeatherStorage -> LocalWeatherAnimation", localWeatherAnimation)
+        
 
 
         // applying class to weather animation span 
 
         if (localWeather === "Clouds") {
-            LocalWeatherAnimation.addClass("fas fa-cloud fa-2x")
+            localWeatherAnimation.addClass("fas fa-cloud fa-2x")
         } else if (localWeather === "Rain") {
-            LocalWeatherAnimation.addClass("fas fa-cloud-rain fa-2x")
+            localWeatherAnimation.addClass("fas fa-cloud-rain fa-2x")
         } else if (localWeather === "Clear") {
-            LocalWeatherAnimation.addClass("far fa-sun fa-2x")
+            localWeatherAnimation.addClass("far fa-sun fa-2x")
         } else if (localWeather === "Snow") {
-            LocalWeatherAnimation.addClass("fas fa-snowflake fa-2x")
+            localWeatherAnimation.addClass("fas fa-snowflake fa-2x")
+        }else if (localWeather === "Mist") {
+            localWeatherAnimation.addClass("fas fa-cloud-rain fa-2x")
+        }else if (localWeather === "Haze") {
+            localWeatherAnimation.addClass("fas fa-smog fa-2x")
         }
-        LocalCityDiv.text(LocalCity + " " + date + " " + LocalWeatherAnimation)
+        LocalCityDiv.text(LocalCity + " " + date + " ");
+        LocalCityDiv.append(localWeatherAnimation)
 
 
         //temperature---------------------------------------------------------------
@@ -80,7 +97,18 @@ function retrieveDailyWeatherStorage() {
         //UV Index 
         var localUvIndexDiv = $("<div>")
         var localUvIndex = localStorage.getItem("initalUvIndex")
+        var localUvIndexSpan = $("<span>")
         localUvIndexDiv.text("UV Index:  ").addClass("UvIndex")
+        localUvIndexDiv.append(localUvIndexSpan)
+        localUvIndexSpan.text(localUvIndex)
+
+        if (localUvIndex <= 3){
+            localUvIndexSpan.addClass("low")
+        }else if(localUvIndex > 7.01){
+            localUvIndexSpan.addClass("high")
+        }else if(3.1 <= localUvIndex <= 6.9){
+            localUvIndexSpan.addClass("medium")
+        }
 
 
 
@@ -128,6 +156,10 @@ function retrieveDailyWeatherStorage() {
             LocalWeatherNextDayDiv.addClass("far fa-sun fa-2x")
         } else if (LocalWeatherNextDay === "Snow") {
             LocalWeatherNextDayDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (LocalWeatherNextDay === "Mist") {
+            LocalWeatherNextDayDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (LocalWeatherNextDay === "Smog") {
+            LocalWeatherNextDayDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -166,6 +198,10 @@ function retrieveDailyWeatherStorage() {
             LocalWeatherDayTwoDiv.addClass("far fa-sun fa-2x")
         } else if (LocalWeatherDayTwo === "Snow") {
             LocalWeatherDayTwoDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (LocalWeatherDayTwo === "Mist") {
+            LocalWeatherDayTwoDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (LocalWeatherDayTwo === "Haze") {
+            LocalWeatherDayTwoDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -205,7 +241,12 @@ function retrieveDailyWeatherStorage() {
             LocalWeatherDayThreeDiv.addClass("far fa-sun fa-2x")
         } else if (LocalWeatherDayThree === "Snow") {
             LocalWeatherDayThreeDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (LocalWeatherDayThree === "Mist") {
+            LocalWeatherDayThreeDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (LocalWeatherDayThree === "Haze") {
+            LocalWeatherDayThreeDiv.addClass("fas fa-smog fa-2x")
         }
+
 
         // Temperature 
         var localFDayThree = localStorage.getItem("dayThreeTempFixed")
@@ -245,6 +286,10 @@ function retrieveDailyWeatherStorage() {
             LocalWeatherDayFourDiv.addClass("far fa-sun fa-2x")
         } else if (LocalWeatherDayFour === "Snow") {
             LocalWeatherDayFourDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (LocalWeatherDayFour === "Mist") {
+            LocalWeatherDayFourDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (LocalWeatherDayFour === "Haze") {
+            LocalWeatherDayFourDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -284,6 +329,10 @@ function retrieveDailyWeatherStorage() {
             LocalWeatherDayFiveDiv.addClass("far fa-sun fa-2x")
         } else if (LocalWeatherDayFive === "Snow") {
             LocalWeatherDayFiveDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (LocalWeatherDayFive === "Mist") {
+            LocalWeatherDayFiveDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (LocalWeatherDayFive === "Haze") {
+            LocalWeatherDayFiveDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -315,7 +364,6 @@ function retrieveDailyWeatherStorage() {
 
 
 
-
 $("#add-city").on("click", function () {
     event.preventDefault()
     $("#dayForcast").empty()
@@ -326,14 +374,14 @@ $("#add-city").on("click", function () {
     var restWord = location.slice(1)
     let locationC = (firstLetter + restWord)
     console.log("TCL: location", locationC)
-
+    
     pastSearches.push(locationC)
     console.log(pastSearches)
     localStorage.setItem("pastSearches", pastSearches)
     $(".list").empty()
 
     // for loop for appending list items
-    for (i = 0; i < pastSearches.length && i < 10; i++) {
+    for (i = 0; i < pastSearches.length; i++) {
         let searchItem = $("<li>")
         searchItem.text(pastSearches[i])
         $(".list").prepend(searchItem)
@@ -346,6 +394,26 @@ $("#add-city").on("click", function () {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+
+        var lat = response.coord.lat
+        var lon = response.coord.lon
+    console.log("TCL: response", response)
+        // add lat and long variables 
+
+
+    var APIKey = "20c488e0a9aff750eabd58301c43b3ce"
+    var queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${lat}&lon=${lon}`
+    console.log(queryURL)
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (uVResponse) {
+        console.log(queryURL)
+        console.log(uVResponse)
+
+
+
+   
 
         //initial div and city div 
         var weatherDiv = $("<div>")
@@ -366,8 +434,13 @@ $("#add-city").on("click", function () {
             weatherAnimation.addClass("far fa-sun fa-2x")
         } else if (weather === "Snow") {
             weatherAnimation.addClass("fas fa-snowflake fa-2x")
+        }else if (weather === "Mist") {
+            weatherAnimation.addClass("fas fa-cloud-rain fa-2x")
+        }else if (weather === "Haze") {
+            weatherAnimation.addClass("fas fa-smog fa-2x")
         }
-        cityDiv.text(city + " " + date + " " + weatherAnimation)
+        cityDiv.text(city + " " + date + " " )
+        cityDiv.append(weatherAnimation)
 
         //temperature
         var k = (response.main.temp)
@@ -390,16 +463,27 @@ $("#add-city").on("click", function () {
         localStorage.setItem("initialWindSpeed", windSpeed)
 
         //UV Index 
-        var UvIndexDiv = $("<div>")
-        var UvIndex = 5
-        UvIndexDiv.text("UV Index:  ").addClass("UvIndex")
-        localStorage.setItem("initalUvIndex", UvIndex)
-
+        var uvIndexDiv = $("<div>")
+        var uvIndex = uVResponse.value
+        uvIndexDiv.text("UV Index:  ").addClass("UvIndex")
+        var uvIndexSpan = $("<span>")
+        uvIndexSpan.text(uvIndex)
+        uvIndexDiv.append(uvIndexSpan)
+        localStorage.setItem("initalUvIndex", uvIndex)
+        console.log(uvIndex)
+        if (uvIndex <= 3){
+            uvIndexSpan.addClass("low")
+        }else if(uvIndex > 7.01){
+            uvIndexSpan.addClass("high")
+        }else if(3.1 <= uvIndex <= 6.9){
+            uvIndexSpan.addClass("medium")
+        }
 
         //Appending to page
-        $(weatherDiv).append(cityDiv, tempDiv, humidityDiv, windSpeedDiv, UvIndexDiv)
+        $(weatherDiv).append(cityDiv, tempDiv, humidityDiv, windSpeedDiv, uvIndexDiv)
         $("#dayForcast").append(weatherDiv)
     })
+})
 
     // 5 day api 
     var APIKey = "20c488e0a9aff750eabd58301c43b3ce"
@@ -441,6 +525,10 @@ $("#add-city").on("click", function () {
             weatherNextDayDiv.addClass("far fa-sun fa-2x")
         } else if (weatherNextDay === "Snow") {
             weatherNextDayDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (weatherNextDay === "Mist") {
+            weatherNextDayDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (weatherNextDay === "Haze") {
+            weatherNextDayDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -489,6 +577,10 @@ $("#add-city").on("click", function () {
             dayTwoWeatherDiv.addClass("far fa-sun fa-2x")
         } else if (dayTwoWeather === "Snow") {
             dayTwoWeatherDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (dayTwoWeather === "Mist") {
+            dayTwoWeatherDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (dayTwoWeather === "Haze") {
+            dayTwoWeatherDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -547,6 +639,10 @@ $("#add-city").on("click", function () {
             dayThreeWeatherDiv.addClass("far fa-sun fa-2x")
         } else if (dayThreeWeather === "Snow") {
             dayThreeWeatherDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (dayThreeWeather === "Mist") {
+            dayThreeWeatherDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (dayThreeWeather === "Haze") {
+            dayThreeWeatherDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -592,6 +688,10 @@ $("#add-city").on("click", function () {
             dayFourWeatherDiv.addClass("far fa-sun fa-2x fa-2x")
         } else if (dayFourWeather === "Snow") {
             dayFourWeatherDiv.addClass("fas fa-snowflake fa-2x fa-2x")
+        }else if (dayFourWeather === "Mist") {
+            dayFourWeatherDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (dayFourWeather === "Haze") {
+            dayFourWeatherDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -638,6 +738,10 @@ $("#add-city").on("click", function () {
             dayFiveWeatherDiv.addClass("far fa-sun fa-2x")
         } else if (dayFiveWeather === "Snow") {
             dayFiveWeatherDiv.addClass("fas fa-snowflake fa-2x")
+        }else if (dayFiveWeather === "Mist") {
+            dayFiveWeatherDiv.addClass("fas fa-cloud-rain fa-2x")
+        }else if (dayFiveWeather === "Haze") {
+            dayFiveWeatherDiv.addClass("fas fa-smog fa-2x")
         }
 
         // Temperature 
@@ -662,28 +766,12 @@ $("#add-city").on("click", function () {
     })
 })
 
-
-// trying to add UV 
-
-// $("#addACity").on("click", function () {
+// // list on click
+// $("li").on("click", function () {
 //     event.preventDefault()
-//     console.log("works")
-//     var location = $("#multiDayInput").val();
-//     console.log(location)
+//     console.log("clicked")
 
-//     var APIKey = "20c488e0a9aff750eabd58301c43b3ce"
-//     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + location + "&appid=" + APIKey
-//     console.log(queryURL)
-//     $.ajax({
-//         url: queryURL,
-//         method: "GET"
-//     }).then(function (response) {
-//         console.log(queryURL)
-//         console.log(response)
-
-
-
-//     })
-
-
+//     var listLocation = $(this)
+//     console.log(this)
+// })
 

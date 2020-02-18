@@ -57,6 +57,9 @@ main {
 .fa-cloud {
     color: rgb(223, 213, 213);
 }
+.fa-smog{
+    color: lightgrey;
+}
 
 .fas, .far {
     padding-left: 30px;
@@ -101,4 +104,38 @@ li {
     border-width: .5px;
     margin-left: -40px;
     padding: 10px 15px;
+}
+
+li:hover{
+    border: solid;
+    border-color: black;
+    border-width: 2px;
+}
+
+
+.fa-search{
+    color: white;
+}
+.low{
+
+    color: white;
+    background-color: green;
+    padding: 7.5px;
+    border-radius: 3px;
+
+}
+.high{
+    color: white;
+    background-color: red;
+    padding: 5px;
+}
+.medium{
+    color: white;
+    background-color: #fbc02d; 
+    padding: 5px;
+    border-radius: 1.5px;
+
+}
+.icon{
+    background-color: white;
 }
