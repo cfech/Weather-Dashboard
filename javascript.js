@@ -402,7 +402,7 @@ $("#add-city").on("click", function () {
 
 
     var APIKey = "20c488e0a9aff750eabd58301c43b3ce"
-    var queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${lat}&lon=${lon}`
+    var queryURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${lat}&lon=${lon}`
     console.log(queryURL)
     $.ajax({
         url: queryURL,
