@@ -359,17 +359,26 @@ function retrieveDailyWeatherStorage() {
 
 
 
-
-
-
-
-
 $("#add-city").on("click", function () {
-    event.preventDefault()
+event.preventDefault()
+var location = $("#city-input").val().trim();
+callCity(location)
+
+})
+// function callCity(location){
+
+//     var queryURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${lat}&lon=${lon}`
+// }
+
+
+
+    function callCity(location){
+
+   
     $("#dayForcast").empty()
 
     //setting location 
-    var location = $("#city-input").val().trim();
+    // var location = $("#city-input").val().trim();
     var firstLetter = location.charAt(0).toUpperCase()
     var restWord = location.slice(1)
     let locationC = (firstLetter + restWord)
@@ -400,7 +409,6 @@ $("#add-city").on("click", function () {
     console.log("TCL: response", response)
         // add lat and long variables 
 
-
     var APIKey = "20c488e0a9aff750eabd58301c43b3ce"
     var queryURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${lat}&lon=${lon}`
     console.log(queryURL)
@@ -410,10 +418,6 @@ $("#add-city").on("click", function () {
     }).then(function (uVResponse) {
         console.log(queryURL)
         console.log(uVResponse)
-
-
-
-   
 
         //initial div and city div 
         var weatherDiv = $("<div>")
@@ -599,19 +603,6 @@ $("#add-city").on("click", function () {
         dayTwoHumidityDiv.text("Humidity:  " + dayTwoHumidity + "%").addClass("humidity")
         localStorage.setItem("dayTwoHumidity", dayTwoHumidity)
 
-
-
-
-
-
-
-
-        // dayTwoArray.push(dayTwoHumidity)
-        // console.log("TCL: dayTwoArray", dayTwoArray)
-
-        //setting day two array to local storage
-        // localStorage.setItem("dayTwoArray", dayTwoArray)
-
         //Appending to page
         dayTwoDiv.append(dayTwoDateDiv, dayTwoWeatherDiv, dayTwoTempCDiv, dayTwoHumidityDiv)
         $("#dayTwo").append(dayTwoDiv)
@@ -764,14 +755,18 @@ $("#add-city").on("click", function () {
         dayFiveDiv.append(dayFiveDateDiv, dayFiveWeatherDiv, dayFiveTempCDiv, dayFiveHumidityDiv)
         $("#dayFive").append(dayFiveDiv)
     })
+}
+
+// list on click
+$("li").on("click", function () {
+    event.preventDefault()
+    console.log("clicked")
+
+    var listLocation = $(this).text()
+    console.log("TCL: listLocation", listLocation)
+    // console.log(this)
+
+    let location = listLocation
+    callCity(location)
 })
-
-// // list on click
-// $("li").on("click", function () {
-//     event.preventDefault()
-//     console.log("clicked")
-
-//     var listLocation = $(this)
-//     console.log(this)
-// })
 

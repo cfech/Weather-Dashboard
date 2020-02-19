@@ -115,9 +115,15 @@ li:hover{
 
 .fa-search{
     color: white;
+    text-align: center;
+    width: 100%;
+    position: relative; 
+}
+.fa-search::before{
+    position: absolute;
+    left:20%;
 }
 .low{
-
     color: white;
     background-color: green;
     padding: 7.5px;
