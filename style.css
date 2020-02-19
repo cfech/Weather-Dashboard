@@ -25,7 +25,7 @@ main {
     background-color: #F8F9FA;
 }
 
-#dayForcast {
+#dayForecast {
     border-color: #F4F4F4;
     border: solid;
     border-width: 1px;
@@ -57,7 +57,8 @@ main {
 .fa-cloud {
     color: rgb(223, 213, 213);
 }
-.fa-smog{
+
+.fa-smog {
     color: lightgrey;
 }
 
@@ -66,7 +67,7 @@ main {
     padding-bottom: 10px;
 }
 
-.forcast {
+.forecast {
     margin-left: 10px;
     ;
 }
@@ -106,42 +107,44 @@ li {
     padding: 10px 15px;
 }
 
-li:hover{
+li:hover {
     border: solid;
     border-color: black;
     border-width: 2px;
 }
 
-
-.fa-search{
+.fa-search {
     color: white;
     text-align: center;
     width: 100%;
-    position: relative; 
+    position: relative;
 }
-.fa-search::before{
+
+.fa-search::before {
     position: absolute;
-    left:20%;
+    left: 20%;
 }
-.low{
+
+.low {
     color: white;
     background-color: green;
     padding: 7.5px;
     border-radius: 3px;
-
 }
-.high{
+
+.high {
     color: white;
     background-color: red;
     padding: 5px;
 }
-.medium{
+
+.medium {
     color: white;
-    background-color: #fbc02d; 
+    background-color: #fbc02d;
     padding: 5px;
     border-radius: 1.5px;
-
 }
-.icon{
+
+.icon {
     background-color: white;
 }

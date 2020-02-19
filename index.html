@@ -11,85 +11,54 @@
 </head>
 
 <body>
+    <!--Nav Bar-->
     <nav class="navbar navbar-dark justify-content-center myNav">
         <span class="navbar-brand mb-0 h1 navSpan">Weather DashBoard</span>
     </nav>
-
+ <!--Main container of page-->
     <main class="container col-12">
-
         <section class="row">
+
+            <!--List div-->
             <div class="col-lg-3 col-md-12   listDiv">
-
-
-
-
                 <div id="1Day row searchLabel">
                     <label for="one-day-input ">Search for a City</label>
                 </div>
                 <form class="row">
-
                     <input type="text" id="city-input" class="col-7 offset-1 "><br>
-
-                  
-                    <button id="add-city" type="submit" value="" class="col-2 searchButton" ><i class="fas fa-search"></i></button>
+                    <button id="add-city" type="submit" value="" class="col-2 searchButton"><i
+                            class="fas fa-search"></i></button>
                 </form>
                 <div id="OneDayWeather"></div>
-
-
-                <ul class="list" style="list-style-type:none;">
-
-
-
-                </ul>
-
-
-
+                <ul class="list" style="list-style-type:none;"> </ul>
             </div>
 
-
-
+                <!--Weather div-->
             <div class="col-lg-9 col-md-12   weatherDiv">
 
-                <div class="row" id="dayForcast"></div>
+                 <!--1 Day forecast div-->
+                <div class="row" id="dayForecast"></div>
+
+                 <!--Heading div-->
                 <div class='row'>
-                    <h4 class="forcast">5 Day Forcast:</h4>
-
-                </div>
-                <div class="row testRow">
-                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="nextDay"></div>
-                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="dayTwo"></div>
-                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="dayThree"></div>
-                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="dayFour"></div>
-                    <div class="col-lg-2 ml-4 fiveDay  col-md-11     " id="dayFive"></div>
-
+                    <h4 class="forecast">5 Day Forcast:</h4>
                 </div>
 
+                 <!--5 Day weather row-->
+                <div class="row">
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-10  offset-md-2" id="nextDay"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-10  offset-md-2" id="dayTwo"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-10  offset-md-2" id="dayThree"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-10  offset-md-2" id="dayFour"></div>
+                    <div class="col-lg-2 ml-4 fiveDay  col-md-10  offset-md-2" id="dayFive"></div>
+                </div>
             </div>
-
         </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </main>
+
+     <!--Scripts-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="javascript.js"></script>
-
 </body>
-
 </html>
