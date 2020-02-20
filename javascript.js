@@ -19,7 +19,7 @@ function retrieveListStorage() {
             pastSearches.push(prevSearches[i])
         }
         for (i = 0; i < 5 && i < prevSearches.length; i++) {
-            let searchItem = $("<li>")
+            let searchItem = $("<li>").attr("id", "listItem")
             searchItem.text(prevSearches[i])
             $(".list").append(searchItem)
         }
@@ -341,7 +341,7 @@ function callCity(location) {
 
     // for loop for appending list items
     for (i = 0; i < pastSearches.length; i++) {
-        let searchItem = $("<li>")
+        let searchItem = $("<li>").attr("id", "listItem")
         searchItem.text(pastSearches[i])
         $(".list").prepend(searchItem)
 
@@ -689,7 +689,9 @@ function callCity(location) {
 }
 
 // On click event for list 
-$("li").on("click", function () {
+
+
+    $(document).on("click","li", function () {
     event.preventDefault()
     console.log("clicked")
 
